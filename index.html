@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Inter',system-ui,sans-serif;color:#1A1A1A;background:#FBF8F1;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:#B21E1E;text-decoration:none}
+  a:hover{color:#8f1616}
+  img{max-width:100%;display:block}
+  input,select,textarea,button{font-family:inherit}
+  :focus-visible{outline:3px solid #F4B400;outline-offset:2px;border-radius:4px}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes faqOpen{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .reveal-sec{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+  .reveal-sec.is-in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;scroll-behavior:auto!important;transition:none!important}.reveal-sec{opacity:1!important;transform:none!important}}
+</style>
+</helmet>
+
+
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;background:{{ headerBg }};backdrop-filter:blur(10px);border-bottom:1px solid #ECE4D5;box-shadow:{{ headerShadow }};transition:box-shadow .25s ease,background .25s ease">
+  <div style="max-width:1180px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="#pocetna" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:12px;color:#1A1A1A">
+      <img src="images/logo.jpg" alt="Logo Auto škole START DNJ" style="width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid #D62828;box-shadow:0 2px 8px rgba(0,0,0,.12)">
+      <span style="display:flex;flex-direction:column;line-height:1.05">
+        <strong style="font-family:'Manrope',sans-serif;font-weight:800;font-size:19px;letter-spacing:.02em">START DNJ</strong>
+        <span style="font-size:12px;color:#6E675E;letter-spacing:.16em;text-transform:uppercase">Auto škola</span>
+      </span>
+    </a>
+
+    <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Glavna navigacija" style="display:flex;align-items:center;gap:26px">
+        <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="5">
+          <a href="{{ link.href }}" onClick="{{ closeMenu }}" style="color:#1A1A1A;font-weight:600;font-size:15px" style-hover="color:#D62828">{{ link.label }}</a>
+        </sc-for>
+        <a href="tel:+381641620595" style="background:#D62828;color:#fff;font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;padding:11px 20px;border-radius:10px;box-shadow:0 4px 14px rgba(214,40,40,.28)" style-hover="background:#B21E1E">Pozovite nas</a>
+      </nav>
+    </sc-if>
+
+    <sc-if value="{{ showHamburger }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Otvori meni" aria-expanded="{{ menuOpen }}" style="display:flex;flex-direction:column;justify-content:center;gap:5px;width:46px;height:46px;background:#fff;border:1px solid #ECE4D5;border-radius:10px;cursor:pointer;padding:0 12px">
+        <span style="height:2.5px;background:#1A1A1A;border-radius:2px;display:block"></span>
+        <span style="height:2.5px;background:#1A1A1A;border-radius:2px;display:block"></span>
+        <span style="height:2.5px;background:#1A1A1A;border-radius:2px;display:block"></span>
+      </button>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ showMobileMenu }}">
+    <nav aria-label="Mobilna navigacija" style="border-top:1px solid #ECE4D5;background:#fff;padding:12px 22px 20px;display:flex;flex-direction:column;gap:4px;animation:faqOpen .2s ease">
+      <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="5">
+        <a href="{{ link.href }}" onClick="{{ closeMenu }}" style="color:#1A1A1A;font-weight:600;font-size:17px;padding:12px 8px;border-bottom:1px solid #F1EADB" style-hover="color:#D62828">{{ link.label }}</a>
+      </sc-for>
+      <a href="tel:+381641620595" onClick="{{ closeMenu }}" style="margin-top:12px;background:#D62828;color:#fff;text-align:center;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;padding:14px;border-radius:10px">Pozovite nas</a>
+    </nav>
+  </sc-if>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section id="pocetna" style="scroll-margin-top:88px;position:relative;overflow:hidden;background:#17150F">
+    <img src="images/hero.png" alt="Vozilo auto-škole START DNJ tokom vožnje kroz grad" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%">
+    <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,13,9,.9) 0%,rgba(15,13,9,.72) 42%,rgba(15,13,9,.35) 72%,rgba(15,13,9,.15) 100%)"></div>
+    <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:repeating-linear-gradient(180deg,#F4B400 0 22px,transparent 22px 44px)"></div>
+    <div style="position:relative;max-width:1180px;margin:0 auto;padding:clamp(64px,10vw,120px) 22px">
+      <div style="max-width:640px;animation:fadeUp .6s ease both">
+        <span style="display:inline-flex;align-items:center;gap:10px;color:#F4B400;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase">
+          
+          Auto škola u Nišu
+        </span>
+        <h1 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(2.1rem,5.2vw,3.5rem);line-height:1.08;margin:18px 0 0;letter-spacing:-.01em;text-wrap:balance;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.35)">Prvi korak ka sigurnoj i samostalnoj vožnji</h1>
+        <div style="width:64px;height:5px;margin:22px 0;background:repeating-linear-gradient(90deg,#F4B400 0 14px,transparent 14px 24px);border-radius:2px"></div>
+        <p style="font-size:clamp(16px,1.6vw,18px);color:#e8e1d3;max-width:520px;margin:0 0 30px;text-wrap:pretty">Iskusni instruktori, jasan program i termini prilagođeni vama. Do vozačke dozvole vas vodimo sigurno, korak po korak.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px">
+          <a href="tel:+381641620595" style="background:#D62828;color:#fff;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;padding:15px 26px;border-radius:11px;box-shadow:0 6px 18px rgba(214,40,40,.35)" style-hover="background:#e83636">Pozovite za informacije</a>
+          <a href="#obuka" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.55);font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;padding:15px 26px;border-radius:11px;backdrop-filter:blur(4px)" style-hover="background:#fff;color:#1A1A1A;border-color:#fff">Pogledajte obuku</a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px 26px;margin:32px 0 0">
+          <p style="display:flex;align-items:center;gap:9px;margin:0;font-size:15px;color:#e8e1d3">
+            <span aria-hidden="true" style="width:9px;height:9px;border-radius:50%;background:#F4B400;border:2px solid #D62828;flex:none"></span>
+            Jovana Ristića 11, lokal M-1, Niš
+          </p>
+          <p style="display:flex;align-items:center;gap:9px;margin:0;font-size:15px;color:#e8e1d3">
+            <span aria-hidden="true" style="width:9px;height:9px;border-radius:50%;background:#F4B400;border:2px solid #D62828;flex:none"></span>
+            Pon–Pet 09–19h · Subota 09–14h
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRZE INFORMACIJE -->
+  <section aria-label="Brze informacije" style="background:#17150F">
+    
+  </section>
+
+  <!-- OBUKE I KATEGORIJE -->
+  <section id="obuka" style="scroll-margin-top:88px">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px">
+      <span style="display:inline-block;color:#B21E1E;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Obuka</span>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);margin:10px 0 0;letter-spacing:-.01em">Obuke i kategorije</h2>
+      <div style="width:56px;height:5px;margin:18px 0 20px;background:repeating-linear-gradient(90deg,#F4B400 0 14px,transparent 14px 24px);border-radius:2px"></div>
+      
+      <p style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8A7F68;margin:0 0 34px">[POTVRDITI SA KLIJENTOM]: prikazane kategorije i opisi su predlog teksta; konačan spisak uskladiti sa auto-školom.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+        <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid #ECE4D5;border-radius:16px;padding:28px 26px;box-shadow:0 2px 10px rgba(23,21,15,.04)" style-hover="box-shadow:0 12px 30px rgba(23,21,15,.09);border-color:#F4B400">
+            <span aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:12px;background:#FFF6E0;color:#B21E1E;font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;margin-bottom:18px">{{ cat.num }}</span>
+            <h3 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:19px;margin:0 0 10px">{{ cat.title }}</h3>
+            <p style="font-size:15px;color:#5b544a;margin:0;text-wrap:pretty">{{ cat.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:28px;background:#fff;border:1px solid #ECE4D5;border-radius:16px;overflow:hidden">
+        <div style="display:flex;align-items:center;gap:12px;padding:20px 26px;border-bottom:1px solid #F1E4BE;background:#FFF6E0">
+          <span aria-hidden="true" style="width:10px;height:10px;border-radius:50%;background:#F4B400;border:2px solid #D62828;flex:none"></span>
+          <span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:17px;color:#7A5A00">Dodatne informacije</span>
+        </div>
+        <dl style="margin:0;display:flex;flex-direction:column">
+          <sc-for list="{{ obukaDetails }}" as="d" hint-placeholder-count="5">
+            <div style="display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;padding:16px 26px;border-bottom:1px solid #F4EFE3">
+              <dt style="font-size:13px;color:#6E675E;font-weight:600;letter-spacing:.04em;text-transform:uppercase;flex:none">{{ d.label }}</dt>
+              <dd style="margin:0;font-family:'Manrope',sans-serif;font-size:15px;color:#1A1A1A;font-weight:600;text-align:right;flex:1 1 200px;min-width:160px">{{ d.value }}</dd>
+            </div>
+          </sc-for>
+        </dl>
+      </div>
+
+      <div style="margin-top:32px">
+        <a href="tel:+381641620595" style="background:#D62828;color:#fff;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;padding:15px 26px;border-radius:11px;display:inline-block;box-shadow:0 6px 18px rgba(214,40,40,.24)" style-hover="background:#B21E1E">Pozovite za informacije o obuci</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCES -->
+  <section aria-label="Proces obuke" style="background:#F4EFE3">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px">
+      <span style="display:inline-block;color:#B21E1E;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Proces</span>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);margin:10px 0 0;letter-spacing:-.01em">Kako izgleda put do obuke?</h2>
+      <div style="width:56px;height:5px;margin:18px 0 40px;background:repeating-linear-gradient(90deg,#F4B400 0 14px,transparent 14px 24px);border-radius:2px"></div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px">
+        <sc-for list="{{ steps }}" as="step" hint-placeholder-count="4">
+          <div style="position:relative;background:#fff;border:1px solid #ECE4D5;border-radius:16px;padding:26px 24px">
+            <span aria-hidden="true" style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;color:#F4B400;line-height:1;display:block;margin-bottom:14px">{{ step.n }}</span>
+            <sc-if value="{{ step.pending }}">
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:14px;color:#9A6B00;background:#FFF6E0;border:1px dashed #E0A500;border-radius:8px;padding:6px 10px;display:inline-block;margin-bottom:10px">{{ step.title }}</span>
+              <p style="font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#8A7F68;margin:0">{{ step.desc }}</p>
+            </sc-if>
+            <sc-if value="{{ step.real }}">
+              <h3 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;margin:0 0 8px">{{ step.title }}</h3>
+              <p style="font-size:15px;color:#5b544a;margin:0;text-wrap:pretty">{{ step.desc }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin:26px 0 0;font-size:13px;color:#8A7F68;font-family:ui-monospace,Menlo,monospace">[POTVRDITI SA KLIJENTOM]: redosled teorijske nastave, lekarskog pregleda, prve pomoći, časova vožnje i ispita.</p>
+    </div>
+  </section>
+
+  <!-- O AUTO-ŠKOLI -->
+  <section id="o-nama" style="scroll-margin-top:88px">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px">
+      <span style="display:inline-block;color:#B21E1E;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase">O nama</span>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);margin:10px 0 0;letter-spacing:-.01em;max-width:640px;text-wrap:balance">Upoznajte Auto školu START DNJ</h2>
+      <div style="width:56px;height:5px;margin:18px 0 30px;background:repeating-linear-gradient(90deg,#F4B400 0 14px,transparent 14px 24px);border-radius:2px"></div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,52px)">
+        <div style="flex:1 1 440px;min-width:290px">
+          <p style="font-size:17px;color:#3f3a32;margin:0 0 18px;text-wrap:pretty">Auto škola START DNJ nalazi se na adresi Jovana Ristića 11, lokal M-1, u Nišu. Za informacije o upisu i obuci možete kontaktirati Dragana ili Nikolu.</p>
+          <p style="font-size:16px;color:#3f3a32;margin:0 0 24px;text-wrap:pretty">Auto škola START DNJ okuplja tim koji kandidate kroz obuku vodi jasno i bez pritiska. Za sva pitanja o upisu, kategorijama i organizaciji časova možete se obratiti direktno Draganu ili Nikoli: telefonom, porukom na WhatsApp ili Viber, ili e-mailom.</p>
+
+          <span style="display:block;font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;margin-bottom:12px">Prednosti</span>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ advantages }}" as="adv" hint-placeholder-count="3">
+              <li style="display:flex;align-items:center;gap:12px;font-size:15px;color:#3f3a32">
+                <span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#F4B400;border:2px solid #D62828;flex:none"></span>
+                {{ adv }}
+              </li>
+            </sc-for>
+          </ul>
+        </div>
+
+        <div style="flex:1 1 300px;min-width:270px;display:flex;flex-direction:column;gap:18px">
+          <div style="background:#fff;border:1px solid #ECE4D5;border-radius:16px;padding:22px;display:flex;gap:16px;align-items:center">
+            <div role="img" aria-label="Placeholder za fotografiju Dragana" style="width:72px;height:72px;flex:none;border-radius:50%;border:1.5px dashed #C9BEA6;background:repeating-linear-gradient(45deg,#F1EADB 0 8px,#F7F1E5 8px 16px);display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,monospace;font-size:9px;color:#8A7F68;text-align:center;padding:6px">FOTO</div>
+            <div>
+              <strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:17px;display:block">Dragan Jovanović</strong>
+              <span style="font-size:14px;color:#B21E1E;font-weight:600">Vlasnik i direktor</span>
+              <p style="font-size:13px;color:#5b544a;margin:8px 0 0">Vlasnik auto-škole, dostupan kandidatima za sve informacije o upisu i organizaciji obuke.</p>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #ECE4D5;border-radius:16px;padding:22px;display:flex;gap:16px;align-items:center">
+            <div role="img" aria-label="Placeholder za fotografiju Nikole" style="width:72px;height:72px;flex:none;border-radius:50%;border:1.5px dashed #C9BEA6;background:repeating-linear-gradient(45deg,#F1EADB 0 8px,#F7F1E5 8px 16px);display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,monospace;font-size:9px;color:#8A7F68;text-align:center;padding:6px">FOTO</div>
+            <div>
+              <strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:17px;display:block">Nikola</strong>
+              <span style="font-size:14px;color:#B21E1E;font-weight:600">Instruktor</span>
+              <p style="font-size:13px;color:#5b544a;margin:8px 0 0">Dostupan kandidatima za informacije o upisu i terminima obuke.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIJA -->
+  <section id="galerija" style="scroll-margin-top:88px;background:#fff">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px">
+      <span style="display:inline-block;color:#B21E1E;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Galerija</span>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);margin:10px 0 0;letter-spacing:-.01em">Auto škola u slikama</h2>
+      <div style="width:56px;height:5px;margin:18px 0 20px;background:repeating-linear-gradient(90deg,#F4B400 0 14px,transparent 14px 24px);border-radius:2px"></div>
+      <p style="font-size:17px;color:#5b544a;max-width:620px;margin:0 0 14px;text-wrap:pretty">Pogledajte vozila, prostor i atmosferu tokom obuke.</p>
+      <p style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8A7F68;margin:0 0 34px">[DODATI AUTENTIČNE FOTOGRAFIJE]</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="4">
+          <figure onClick="{{ g.open }}" style="margin:0;position:relative;aspect-ratio:4/3;border-radius:16px;overflow:hidden;border:1px solid #ECE4D5;background:#F1EADB;cursor:zoom-in" style-hover="border-color:#F4B400">
+            <img src="{{ g.src }}" alt="{{ g.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .35s ease" style-hover="transform:scale(1.05)">
+            <figcaption style="position:absolute;left:0;right:0;bottom:0;padding:20px 16px 12px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(to top,rgba(23,21,15,.78),transparent);pointer-events:none">{{ g.caption }}</figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{ lightbox }}">
+    <div onClick="{{ closeLightbox }}" role="dialog" aria-modal="true" aria-label="{{ lightbox.alt }}" style="position:fixed;inset:0;z-index:100;background:rgba(15,13,9,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(20px,5vw,64px);animation:faqOpen .2s ease;cursor:zoom-out">
+      <button onClick="{{ closeLightbox }}" aria-label="Zatvori" style="position:absolute;top:20px;right:24px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="background:rgba(255,255,255,.25)">×</button>
+      {{ lightboxImg }}
+      <span style="margin-top:18px;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#fff">{{ lightbox.caption }}</span>
+    </div>
+  </sc-if>
+
+  <!-- FAQ -->
+  <section id="pitanja" style="scroll-margin-top:88px;background:#F4EFE3">
+    <div style="max-width:820px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px">
+      <span style="display:inline-block;color:#B21E1E;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Pitanja</span>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);margin:10px 0 0;letter-spacing:-.01em">Česta pitanja</h2>
+      <div style="width:56px;height:5px;margin:18px 0 36px;background:repeating-linear-gradient(90deg,#F4B400 0 14px,transparent 14px 24px);border-radius:2px"></div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ faqs }}" as="faq" hint-placeholder-count="8">
+          <div style="background:#fff;border:1px solid #ECE4D5;border-radius:12px;overflow:hidden">
+            <button onClick="{{ faq.toggle }}" aria-expanded="{{ faq.open }}" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:#1A1A1A" style-hover="color:#D62828">
+              <span>{{ faq.q }}</span>
+              <span aria-hidden="true" style="{{ faq.iconStyle }}">+</span>
+            </button>
+            <sc-if value="{{ faq.open }}">
+              <div style="padding:0 20px 20px;animation:faqOpen .22s ease">
+                <sc-if value="{{ faq.pending }}">
+                  <p style="font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#9A6B00;background:#FFF6E0;border:1px dashed #E0A500;border-radius:8px;padding:10px 12px;margin:0">{{ faq.a }}</p>
+                </sc-if>
+                <sc-if value="{{ faq.real }}">
+                  <p style="font-size:15px;color:#5b544a;margin:0;text-wrap:pretty">{{ faq.a }}</p>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt" style="scroll-margin-top:88px">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px">
+      <span style="display:inline-block;color:#B21E1E;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Kontakt</span>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);margin:10px 0 0;letter-spacing:-.01em">Kontaktirajte nas</h2>
+      <div style="width:56px;height:5px;margin:18px 0 36px;background:repeating-linear-gradient(90deg,#F4B400 0 14px,transparent 14px 24px);border-radius:2px"></div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+        <!-- Left: contact cards + info -->
+        <div style="order:2;flex:1 1 380px;min-width:280px;display:flex;flex-direction:column;gap:18px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+            
+            
+          </div>
+
+          <div style="background:#fff;border:1px solid #ECE4D5;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px">
+            
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span style="color:#6E675E;font-size:14px">Instagram</span><a href="https://instagram.com/auto_skola_start_dnj/" target="_blank" rel="noopener" style="font-weight:600;font-size:14px">@auto_skola_start_dnj</a></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span style="color:#6E675E;font-size:14px">Adresa</span><span style="font-weight:600;font-size:14px;text-align:right">Jovana Ristića 11, lokal M-1, Niš</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span style="color:#6E675E;font-size:14px">Radno vreme</span><span style="font-weight:600;font-size:14px;text-align:right">Pon–Pet 09–19h · Sub 09–14h</span></div>
+          </div>
+
+          <div style="border-radius:16px;overflow:hidden;border:1px solid #ECE4D5;background:#fff">
+            <iframe title="Mapa lokacije, Jovana Ristića 11, Niš" src="https://www.google.com/maps?q=Jovana%20Risti%C4%87a%2011%2C%20Ni%C5%A1&amp;output=embed" loading="lazy" style="width:100%;height:220px;border:0;display:block"></iframe>
+            <p style="margin:0;padding:10px 14px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8A7F68;background:#FBF8F1">[POTVRDITI TAČNU LOKACIJU PINA / GOOGLE MAPS EMBED]</p>
+          </div>
+        </div>
+
+        <!-- Left column now: prijava + brzi kontakt -->
+        <div style="order:1;flex:1 1 380px;min-width:280px;background:#fff;border:1px solid #ECE4D5;border-radius:18px;padding:clamp(22px,3vw,32px);box-shadow:0 10px 30px rgba(23,21,15,.05)">
+          <h3 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;margin:0 0 6px">Prijava i brzi kontakt</h3>
+          <p style="font-size:15px;color:#5b544a;margin:0 0 24px;text-wrap:pretty">Popunite online prijavu ili nas kontaktirajte direktno: pozivom, porukom na WhatsApp ili Viber, ili e-mailom.</p>
+
+          <a href="{{ prijavaLink }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;background:#D62828;color:#fff;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(214,40,40,.24)" style-hover="background:#B21E1E">
+            Popunite online prijavu
+          </a>
+          <p style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#9A6B00;background:#FFF6E0;border:1px dashed #E0A500;border-radius:8px;padding:8px 12px;margin:10px 0 0">[DODATI LINK GOOGLE FORMS UPITNIKA]</p>
+
+          <div style="display:flex;align-items:center;gap:12px;margin:24px 0">
+            <span style="flex:1;height:1px;background:#ECE4D5"></span>
+            <span style="font-size:12px;color:#8A7F68;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Ili nas kontaktirajte</span>
+            <span style="flex:1;height:1px;background:#ECE4D5"></span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <a href="tel:+381641620595" style="display:flex;align-items:center;gap:14px;border:1.5px solid #ECE4D5;border-radius:12px;padding:13px 16px;color:#1A1A1A" style-hover="border-color:#D62828;background:#fdf3f3">
+              <span aria-hidden="true" style="width:38px;height:38px;flex:none;border-radius:10px;background:#fdeaea;color:#D62828;display:flex;align-items:center;justify-content:center;font-family:'Manrope',sans-serif;font-weight:800;font-size:18px">☎</span>
+              <span style="display:flex;flex-direction:column;line-height:1.25"><strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px">Pozovite Dragana</strong><span style="font-size:14px;color:#6E675E">064 162 0595</span></span>
+            </a>
+            <a href="tel:+381658588029" style="display:flex;align-items:center;gap:14px;border:1.5px solid #ECE4D5;border-radius:12px;padding:13px 16px;color:#1A1A1A" style-hover="border-color:#D62828;background:#fdf3f3">
+              <span aria-hidden="true" style="width:38px;height:38px;flex:none;border-radius:10px;background:#fdeaea;color:#D62828;display:flex;align-items:center;justify-content:center;font-family:'Manrope',sans-serif;font-weight:800;font-size:18px">☎</span>
+              <span style="display:flex;flex-direction:column;line-height:1.25"><strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px">Pozovite Nikolu</strong><span style="font-size:14px;color:#6E675E">065 858 8029</span></span>
+            </a>
+            <a href="https://wa.me/381641620595" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;border:1.5px solid #ECE4D5;border-radius:12px;padding:13px 16px;color:#1A1A1A" style-hover="border-color:#25D366;background:#f1fbf5">
+              <span aria-hidden="true" style="width:38px;height:38px;flex:none;border-radius:10px;background:#25D366;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg></span>
+              <span style="display:flex;flex-direction:column;line-height:1.25"><strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px">WhatsApp</strong><span style="font-size:14px;color:#6E675E">Poruka Draganu · 064 162 0595</span></span>
+            </a>
+            <a href="viber://chat?number=%2B381641620595" style="display:flex;align-items:center;gap:14px;border:1.5px solid #ECE4D5;border-radius:12px;padding:13px 16px;color:#1A1A1A" style-hover="border-color:#7360F2;background:#f4f2fe">
+              <span aria-hidden="true" style="width:38px;height:38px;flex:none;border-radius:10px;background:#7360F2;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="#fff"><path d="M11.4.8C9.53.83 5.5 1.13 3.24 3.2 1.57 4.86 .98 7.3.91 10.32c-.06 3.02-.14 8.67 5.31 10.2h.01l-.01 2.34s-.03.95.59 1.14c.75.23 1.19-.48 1.91-1.26.4-.43.94-1.06 1.35-1.54 3.72.31 6.58-.4 6.9-.51.75-.24 5.01-.79 5.7-6.44.72-5.83-.35-9.51-2.28-11.17l-.01-.01c-.58-.53-2.92-2.23-8.14-2.26 0 0-.62-.04-1.34-.02Zm.08 1.68c.61-.02 1.14.02 1.14.02 4.41.02 6.53 1.36 7.02 1.8 1.63 1.39 2.46 4.71 1.85 9.58-.58 4.72-4.03 5.02-4.66 5.22-.27.09-2.78.71-5.94.5 0 0-2.36 2.85-3.1 3.59-.11.12-.25.16-.34.14-.13-.03-.17-.19-.16-.42l.02-3.87c-4.61-1.28-4.34-6.09-4.29-8.61.06-2.52.53-4.58 1.94-5.97 1.91-1.73 5.33-1.99 6.93-2.01l-.4.001Zm.72 2.7a.38.38 0 0 0-.02.75c2.02.16 3.5.83 4.55 1.98 1.05 1.15 1.56 2.56 1.55 4.44a.38.38 0 0 0 .76 0c.02-2.03-.57-3.68-1.75-4.95-1.2-1.3-2.88-2.05-5.05-2.22h-.04Zm-3.5.83a.99.99 0 0 0-.68.19l-.02.01c-.4.24-.77.55-1.06.97-.22.32-.34.63-.37.94-.02.18 0 .37.05.55l.02.05c.24.68.57 1.31.99 1.94.54.86 1.2 1.71 2.05 2.5.85.78 1.7 1.42 2.55 1.9l.01.01.61.34.06.03c.18.09.38.14.58.15h.04c.32-.01.63-.14.94-.38.42-.32.72-.71.96-1.13l.01-.02a.98.98 0 0 0 .13-.7c-.05-.29-.24-.53-.5-.68l-1.68-.95c-.34-.19-.75-.11-1.01.18l-.55.7c-.14.17-.4.15-.4.15l-.01.01c-1.92-.49-2.43-2.43-2.43-2.43s-.02-.26.16-.4l.68-.56c.28-.27.36-.68.17-1.02l-.95-1.68a.86.86 0 0 0-.65-.5l-.06-.01Zm3.61.83a.38.38 0 0 0-.05.75c1.47.11 2.19.86 2.3 2.4a.38.38 0 0 0 .76-.05c-.14-1.9-1.17-2.98-3-3.1h-.01Zm.06 1.4a.38.38 0 0 0-.09.75c.53.09.68.24.75.76a.38.38 0 0 0 .75-.1c-.13-.9-.6-1.32-1.38-1.4h-.03Z"></path></svg></span>
+              <span style="display:flex;flex-direction:column;line-height:1.25"><strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px">Viber</strong><span style="font-size:14px;color:#6E675E">Poruka Draganu · 064 162 0595</span></span>
+            </a>
+            <a href="mailto:autoskolastartdnj@gmail.com?subject=Upit%20za%20obuku%20-%20Auto%20%C5%A1kola%20START%20DNJ" style="display:flex;align-items:center;gap:14px;border:1.5px solid #ECE4D5;border-radius:12px;padding:13px 16px;color:#1A1A1A" style-hover="border-color:#F4B400;background:#fff9e8">
+              <span aria-hidden="true" style="width:38px;height:38px;flex:none;border-radius:10px;background:#fff1c9;color:#9A6B00;display:flex;align-items:center;justify-content:center;font-family:'Manrope',sans-serif;font-weight:800;font-size:16px">@</span>
+              <span style="display:flex;flex-direction:column;line-height:1.25;min-width:0"><strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px">Pošaljite e-mail</strong><span style="font-size:14px;color:#6E675E;overflow:hidden;text-overflow:ellipsis">autoskolastartdnj@gmail.com</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZAVRŠNI CTA -->
+  <section aria-label="Poziv na akciju" style="background:#17150F;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(244,180,0,.12) 0 22px,transparent 22px 44px);height:6px;top:0"></div>
+    <div style="max-width:860px;margin:0 auto;padding:clamp(40px,5vw,60px) 22px;text-align:center">
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(1.8rem,4.4vw,2.7rem);color:#fff;margin:0 0 16px;letter-spacing:-.01em;text-wrap:balance">Napravite prvi korak ka upisu</h2>
+      <p style="font-size:17px;color:#cfc7b6;margin:0 auto 30px;max-width:560px;text-wrap:pretty">Kontaktirajte Auto školu START DNJ i proverite dostupne kategorije, termine i uslove za prijavu.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">
+        <a href="tel:+381641620595" style="background:#D62828;color:#fff;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;padding:15px 28px;border-radius:11px;box-shadow:0 6px 20px rgba(214,40,40,.4)" style-hover="background:#e83636">Pozovite za informacije</a>
+        <a href="mailto:autoskolastartdnj@gmail.com?subject=Upit%20za%20obuku%20-%20Auto%20%C5%A1kola%20START%20DNJ" style="background:transparent;color:#fff;border:1.5px solid #F4B400;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;padding:15px 28px;border-radius:11px" style-hover="background:#F4B400;color:#17150F">Pošaljite upit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#100E09;color:#cfc7b6">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(44px,6vw,68px) 22px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <img src="images/logo.jpg" alt="Logo Auto škole START DNJ" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid #D62828">
+            <span style="display:flex;flex-direction:column;line-height:1.05">
+              <strong style="font-family:'Manrope',sans-serif;font-weight:800;font-size:19px;color:#fff;letter-spacing:.02em">START DNJ</strong>
+              <span style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#F4B400">Auto škola</span>
+            </span>
+          </div>
+          <p style="font-size:14px;margin:0 0 18px;max-width:280px;text-wrap:pretty">Auto škola START DNJ: informacije o upisu i obuci kandidata u Nišu.</p>
+        </div>
+
+        <div>
+          <span style="display:block;font-family:'Manrope',sans-serif;font-weight:700;color:#fff;font-size:14px;letter-spacing:.06em;margin-bottom:14px">KONTAKT</span>
+          <div style="display:flex;flex-direction:column;gap:9px;font-size:14px">
+            <span style="color:#a99e86">Jovana Ristića 11, lokal M-1, Niš</span>
+            <a href="tel:+381641620595" style="color:#cfc7b6" style-hover="color:#F4B400">Dragan · 064 162 0595</a>
+            <a href="tel:+381658588029" style="color:#cfc7b6" style-hover="color:#F4B400">Nikola · 065 858 8029</a>
+            <a href="mailto:autoskolastartdnj@gmail.com" style="color:#cfc7b6" style-hover="color:#F4B400">autoskolastartdnj@gmail.com</a>
+            <a href="https://instagram.com/auto_skola_start_dnj/" target="_blank" rel="noopener" style="color:#cfc7b6" style-hover="color:#F4B400">@auto_skola_start_dnj</a>
+          </div>
+        </div>
+
+        <div>
+          <span style="display:block;font-family:'Manrope',sans-serif;font-weight:700;color:#fff;font-size:14px;letter-spacing:.06em;margin-bottom:14px">NAVIGACIJA</span>
+          <div style="display:flex;flex-direction:column;gap:9px;font-size:14px">
+            <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="5">
+              <a href="{{ link.href }}" style="color:#cfc7b6" style-hover="color:#F4B400">{{ link.label }}</a>
+            </sc-for>
+            <a href="#politika-privatnosti" style="color:#cfc7b6" style-hover="color:#F4B400">Politika privatnosti</a>
+            <a href="#politika-kolacica" style="color:#cfc7b6" style-hover="color:#F4B400">Politika kolačića</a>
+          </div>
+        </div>
+
+        <div>
+          <span style="display:block;font-family:'Manrope',sans-serif;font-weight:700;color:#fff;font-size:14px;letter-spacing:.06em;margin-bottom:14px">POSLOVNI PODACI</span>
+          <div style="display:flex;flex-direction:column;gap:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8f846d">
+            <span>[DODATI PUN REGISTROVANI NAZIV]</span>
+            <span>PIB: [DODATI PIB]</span>
+            <span>Matični broj: [DODATI MATIČNI BROJ]</span>
+            <span>[POTVRDITI REGISTROVANU ADRESU]</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid rgba(255,255,255,.08);margin-top:40px;padding-top:22px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+        <span style="font-size:13px;color:#8f846d">© {{ year }} Auto škola START DNJ doo. Sva prava zadržana.</span>
+        <span style="font-size:12px;color:#6e6552;font-family:ui-monospace,Menlo,monospace">Demonstracioni koncept, nije zvanični sajt firme</span>
+      </div>
+    </div>
+  </footer>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    isMobile: false, menuOpen: false, scrolled: false, openFaq: null,
+    form: { name: '', phone: '', email: '', category: '', message: '', consent: false },
+    errors: {}, submitted: false, lightbox: null
+  };
+
+  componentDidMount() {
+    this._offsetHeader = () => {
+      const h = document.querySelector('header');
+      const m = document.querySelector('main');
+      if (h && m) m.style.paddingTop = h.offsetHeight + 'px';
+    };
+    this._offsetHeader();
+    setTimeout(this._offsetHeader, 300);
+    window.addEventListener('resize', this._offsetHeader);
+    const secs = Array.from(document.querySelectorAll('main > section')).filter(el => el.id !== 'pocetna');
+    if ('IntersectionObserver' in window) {
+      secs.forEach(el => el.classList.add('reveal-sec'));
+      this._io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      secs.forEach(el => this._io.observe(el));
+    }
+    this._onResize = () => {
+      const m = window.innerWidth < 900;
+      if (m !== this.state.isMobile) this.setState({ isMobile: m, menuOpen: m ? this.state.menuOpen : false });
+    };
+    this._onScroll = () => {
+      const s = window.scrollY > 12;
+      if (s !== this.state.scrolled) this.setState({ scrolled: s });
+    };
+    this._onResize();
+    this._onScroll();
+    window.addEventListener('resize', this._onResize);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('scroll', this._onScroll);
+    if (this._io) this._io.disconnect();
+    if (this._offsetHeader) window.removeEventListener('resize', this._offsetHeader);
+  }
+
+  set(field, val) { this.setState(s => ({ form: { ...s.form, [field]: val } })); }
+
+  submit(e) {
+    e.preventDefault();
+    const f = this.state.form;
+    const errors = {};
+    if (!f.name.trim()) errors.name = 'Unesite ime i prezime.';
+    if (!f.phone.trim()) errors.phone = 'Unesite broj telefona.';
+    if (!f.email.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email)) errors.email = 'Unesite ispravan email.';
+    if (!f.consent) errors.consent = 'Potvrdite saglasnost sa politikom privatnosti.';
+    if (Object.keys(errors).length) { this.setState({ errors, submitted: false }); return; }
+    this.setState({ errors: {}, submitted: true });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const e = s.errors;
+
+    const navLinks = [
+      { label: 'Početna', href: '#pocetna' },
+      { label: 'Obuka', href: '#obuka' },
+      { label: 'O nama', href: '#o-nama' },
+      { label: 'Pitanja', href: '#pitanja' },
+      { label: 'Kontakt', href: '#kontakt' }
+    ];
+
+    const categories = [
+      { num: '01', title: 'Kategorija B', desc: 'Obuka za upravljanje putničkim vozilom, najčešći izbor kandidata koji prvi put polažu za vozačku dozvolu.' },
+      { num: '02', title: 'Kategorija A / A1 / A2', desc: 'Obuka za motocikle, prilagođena uzrastu i iskustvu kandidata prema odgovarajućoj potkategoriji.' },
+      { num: '03', title: 'Kategorija C', desc: 'Obuka za teretna vozila, namenjena kandidatima koji već poseduju kategoriju B.' }
+    ];
+
+    const obukaDetails = [
+      { label: 'Cena (kategorija B)', value: 'od 95.000 din' },
+      { label: 'Uslovi za upis', value: 'Navršenih 17 godina i važeće lekarsko uverenje' },
+      { label: 'Potrebna dokumenta', value: 'Lična karta na uvid, lekarsko uverenje i popunjena prijava' },
+      { label: 'Sledeći termin', value: 'Nove grupe formiramo svakog meseca' },
+      { label: 'Plaćanje na rate', value: 'Moguće, do 6 mesečnih rata' }
+    ];
+
+    const steps = [
+      { n: '01', title: 'Kontakt i informacije', desc: 'Pozovite Dragana ili Nikolu i proverite dostupne kategorije, termine i uslove za upis.', real: true, pending: false },
+      { n: '02', title: 'Upis i dokumentacija', desc: 'Nakon dogovora predajete potrebna dokumenta i završavate upis u auto-školu.', real: true, pending: false },
+      { n: '03', title: 'Obuka po programu', desc: 'Pohađate obuku prema programu i dogovorenom rasporedu časova.', real: true, pending: false },
+      { n: '04', title: 'Izlazak na ispit', desc: 'Po završenoj obuci izlazite na ispit i stičete uslov za vozačku dozvolu.', real: true, pending: false }
+    ];
+
+    const advantages = ['Direktan kontakt sa vlasnikom i instruktorom auto-škole', 'Prijava telefonom, porukom na WhatsApp ili Viber', 'Lokacija u Nišu: Jovana Ristića 11, lokal M-1'];
+
+    const galleryData = [
+      { src: 'images/gallery-1.jpg', caption: 'Praktična obuka vožnje', alt: 'Instruktor i kandidatkinja tokom časa vožnje' },
+      { src: 'images/gallery-2.jpg', caption: 'Časovi sa instruktorom', alt: 'Instruktor prati mladog kandidata za volanom' },
+      { src: 'images/gallery-3.jpg', caption: 'Teorijska nastava', alt: 'Predavač i polaznici na teorijskoj nastavi u učionici' },
+      { src: 'images/gallery-4.jpg', caption: 'Priprema za ispit', alt: 'Instruktor sa kandidatkinjom tokom vožnje' }
+    ];
+    const gallery = galleryData.map(g => ({ ...g, open: () => this.setState({ lightbox: g }) }));
+
+    const faqData = [
+      { q: 'Za koje kategorije organizujete obuku?', a: 'Za tačan spisak dostupnih kategorija pozovite Dragana na 064 162 0595 ili Nikolu na 065 858 8029.', pending: false },
+      { q: 'Koji su uslovi za upis?', a: 'Uslovi zavise od kategorije za koju se prijavljujete. Detalje vam rado objašnjavamo pozivom ili porukom.', pending: false },
+      { q: 'Koja dokumenta su potrebna?', a: 'Potrebnu dokumentaciju navodimo prilikom prijave, u zavisnosti od kategorije. Kontaktirajte nas za tačan spisak.', pending: false },
+      { q: 'Kada počinje sledeća grupa?', a: 'Termin formiranja nove grupe proverite pozivom, obavestićemo vas o prvom slobodnom terminu.', pending: false },
+      { q: 'Koliko traje obuka?', a: 'Trajanje obuke zavisi od kategorije i dinamike časova. Više informacija dobijate prilikom upisa.', pending: false },
+      { q: 'Koliko obuka košta?', a: 'Aktuelnu cenu obuke za željenu kategoriju dobijate pozivom ili porukom.', pending: false },
+      { q: 'Da li je moguće plaćanje na rate?', a: 'Za mogućnosti plaćanja na rate raspitajte se prilikom prijave.', pending: false },
+      { q: 'Kako mogu da se prijavim?', a: 'Za informacije o prijavi pozovite Dragana na 064 162 0595, Nikolu na 065 858 8029 ili pošaljite email na autoskolastartdnj@gmail.com.', pending: false }
+    ];
+    const faqs = faqData.map((it, i) => {
+      const open = s.openFaq === i;
+      return {
+        q: it.q, a: it.a, pending: it.pending, real: !it.pending, open,
+        iconStyle: 'font-family:Manrope,sans-serif;font-weight:700;font-size:24px;color:#D62828;flex:none;transition:transform .2s ease;transform:rotate(' + (open ? '45deg' : '0deg') + ')',
+        toggle: () => this.setState(st => ({ openFaq: st.openFaq === i ? null : i }))
+      };
+    });
+
+    return {
+      navLinks, categories, obukaDetails, steps, advantages, gallery, faqs,
+      lightbox: s.lightbox,
+      lightboxImg: s.lightbox ? React.createElement('img', {
+        src: s.lightbox.src, alt: s.lightbox.alt,
+        style: { maxWidth: '100%', maxHeight: '82vh', objectFit: 'contain', borderRadius: '12px', boxShadow: '0 30px 80px rgba(0,0,0,.5)' }
+      }) : null,
+      closeLightbox: () => this.setState({ lightbox: null }),
+      isMobile: s.isMobile,
+      showDesktopNav: !s.isMobile,
+      showHamburger: s.isMobile,
+      menuOpen: s.menuOpen,
+      showMobileMenu: s.isMobile && s.menuOpen,
+      headerBg: s.scrolled ? 'rgba(251,248,241,.94)' : 'rgba(251,248,241,.75)',
+      headerShadow: s.scrolled ? '0 6px 22px rgba(23,21,15,.08)' : 'none',
+      toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      form: s.form,
+      setName: (ev) => this.set('name', ev.target.value),
+      setPhone: (ev) => this.set('phone', ev.target.value),
+      setEmail: (ev) => this.set('email', ev.target.value),
+      setCategory: (ev) => this.set('category', ev.target.value),
+      setMessage: (ev) => this.set('message', ev.target.value),
+      setConsent: (ev) => this.set('consent', ev.target.checked),
+      submit: (ev) => this.submit(ev),
+      submitted: s.submitted,
+      prijavaLink: '#',
+      err: {
+        name: e.name, phone: e.phone, email: e.email, consent: e.consent,
+        nameInvalid: !!e.name, phoneInvalid: !!e.phone, emailInvalid: !!e.email
+      },
+      year: new Date().getFullYear()
+    };
+  }
+}
+</script>
+</body>
+</html>

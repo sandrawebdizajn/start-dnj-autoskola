@@ -218,6 +218,39 @@
     </div>
   </section>
 
+  <!-- UTISCI -->
+  <section id="utisci" style="scroll-margin-top:88px;background:#F4EFE3">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px">
+      <span style="display:inline-block;color:#B21E1E;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Utisci</span>
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);margin:10px 0 0;letter-spacing:-.01em">Šta kažu naši polaznici</h2>
+      <div style="width:56px;height:5px;margin:18px 0 34px;background:repeating-linear-gradient(90deg,#F4B400 0 14px,transparent 14px 24px);border-radius:2px"></div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+          <figure style="margin:0;background:#fff;border:1px solid #ECE4D5;border-radius:16px;padding:28px 26px;display:flex;flex-direction:column;gap:16px;box-shadow:0 2px 10px rgba(23,21,15,.04)">
+            <div aria-hidden="true" style="display:flex;gap:3px;color:#F4B400;font-size:18px">{{ t.stars }}</div>
+            <blockquote style="margin:0;font-size:16px;color:#3f3a32;line-height:1.6;text-wrap:pretty">{{ t.quote }}</blockquote>
+            <figcaption style="display:flex;align-items:center;gap:12px;margin-top:auto">
+              <span aria-hidden="true" style="width:42px;height:42px;flex:none;border-radius:50%;background:#FFF6E0;color:#B21E1E;display:flex;align-items:center;justify-content:center;font-family:'Manrope',sans-serif;font-weight:800;font-size:16px">{{ t.initial }}</span>
+              <span style="display:flex;flex-direction:column;line-height:1.25">
+                <strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px">{{ t.name }}</strong>
+                <span style="font-size:13px;color:#6E675E">{{ t.role }}</span>
+              </span>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:32px;display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+        <a href="https://www.google.com/search?q=Auto+%C5%A1kola+START+DNJ+Ni%C5%A1" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;background:#fff;border:1.5px solid #ECE4D5;color:#1A1A1A;font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;padding:13px 22px;border-radius:12px;box-shadow:0 2px 10px rgba(23,21,15,.05)" style-hover="border-color:#F4B400;box-shadow:0 8px 22px rgba(23,21,15,.1)">
+          <svg viewBox="0 0 48 48" width="22" height="22" aria-hidden="true"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18c-.44-1.32-.69-2.73-.69-4.18s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+          Ostavite recenziju na Google-u
+        </a>
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8A7F68">[POTVRDITI LINK GOOGLE PROFILA I ZAMENITI UTISKE PRAVIMA]</span>
+      </div>
+    </div>
+  </section>
+
   <!-- GALERIJA -->
   <section id="galerija" style="scroll-margin-top:88px;background:#fff">
     <div style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px">
@@ -485,6 +518,7 @@ class Component extends DCLogic {
       { label: 'Početna', href: '#pocetna' },
       { label: 'Obuka', href: '#obuka' },
       { label: 'O nama', href: '#o-nama' },
+      { label: 'Utisci', href: '#utisci' },
       { label: 'Pitanja', href: '#pitanja' },
       { label: 'Kontakt', href: '#kontakt' }
     ];
@@ -520,6 +554,12 @@ class Component extends DCLogic {
     ];
     const gallery = galleryData.map(g => ({ ...g, open: () => this.setState({ lightbox: g }) }));
 
+    const testimonials = [
+      { stars: '★★★★★', initial: 'M', name: 'Milica J.', role: 'Položila kategoriju B', quote: 'Strpljivi instruktori i termini koji su mi odgovarali uz fakultet. Ispit sam položila iz prve, uz mnogo samopouzdanja za volanom.' },
+      { stars: '★★★★★', initial: 'S', name: 'Stefan P.', role: 'Položio kategoriju B', quote: 'Sve jasno objašnjeno, od teorije do vožnje. Uvek su bili dostupni za pitanja i savete. Preporuka za sve buduće vozače.' },
+      { stars: '★★★★★', initial: 'A', name: 'Ana V.', role: 'Polaznica', quote: 'Prijatna atmosfera i profesionalan pristup. Osećala sam se sigurno na svakom času, a instruktor je znao tačno šta mi treba.' }
+    ];
+
     const faqData = [
       { q: 'Za koje kategorije organizujete obuku?', a: 'Za tačan spisak dostupnih kategorija pozovite Dragana na 064 162 0595 ili Nikolu na 065 858 8029.', pending: false },
       { q: 'Koji su uslovi za upis?', a: 'Uslovi zavise od kategorije za koju se prijavljujete. Detalje vam rado objašnjavamo pozivom ili porukom.', pending: false },
@@ -540,7 +580,7 @@ class Component extends DCLogic {
     });
 
     return {
-      navLinks, categories, obukaDetails, steps, advantages, gallery, faqs,
+      navLinks, categories, obukaDetails, steps, advantages, gallery, testimonials, faqs,
       lightbox: s.lightbox,
       lightboxImg: s.lightbox ? React.createElement('img', {
         src: s.lightbox.src, alt: s.lightbox.alt,
